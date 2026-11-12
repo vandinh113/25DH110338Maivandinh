@@ -1,0 +1,101 @@
+﻿
+@model Warehouse_25DH110338.Models.Product
+
+@{
+    ViewBag.Title = "Chỉnh sửa sản phẩm";
+
+    string inputName = ViewBag.InputName as string
+        ?? Model.ProductName;
+
+    string inputCategory = ViewBag.InputCategory as string
+        ?? Model.Category;
+
+    string inputPrice = ViewBag.InputPrice as string
+        ?? Model.Price.ToString(
+            System.Globalization.CultureInfo.InvariantCulture);
+}
+
+<h2>CHỈNH SỬA SẢN PHẨM</h2>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Thông tin sản phẩm
+    </div>
+
+    <div class="panel-body">
+
+        @using (Html.BeginForm("Edit", "Products",
+            new { id = Model.ProductID },
+            FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label>Mã sản phẩm</label>
+                <input class="form-control"
+                       value="@Model.ProductID"
+                       readonly />
+            </div>
+
+            <div class="form-group">
+                <label>Tên sản phẩm</label>
+                <input type="text"
+                       name="ProductName"
+                       value="@inputName"
+                       class="form-control" />
+
+                @Html.ValidationMessage(
+                         "ProductName",
+                         "",
+                         new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>Danh mục</label>
+                <input type="text"
+                       name="Category"
+                       value="@inputCategory"
+                       class="form-control" />
+
+                @Html.ValidationMessage(
+                         "Category",
+                         "",
+                         new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>Đơn giá (VNĐ)</label>
+                <input type="text"
+                       name="Price"
+                       value="@inputPrice"
+                       class="form-control" />
+
+                @Html.ValidationMessage(
+                         "Price",
+                         "",
+                         new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>Số lượng tồn kho</label>
+                <input class="form-control"
+                       value="@Model.Quantity"
+                       readonly />
+
+                <p class="help-block">
+                    Không được thay đổi số lượng khi sửa.
+                </p>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-success">
+                Lưu thay đổi
+            </button>
+
+            <a href="@Url.Action("Index", "Products")"
+               class="btn btn-default">
+                Quay lại
+            </a>
+        }
+    </div>
+</div>

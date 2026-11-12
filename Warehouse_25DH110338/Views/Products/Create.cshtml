@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "Thêm sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>THÊM SẢN PHẨM MỚI</h2>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Thông tin sản phẩm mới
+    </div>
+
+    <div class="panel-body">
+
+        @using (Html.BeginForm("Create", "Products",
+            FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label>Tên sản phẩm</label>
+                <input type="text"
+                       name="ProductName"
+                       class="form-control"
+                       value="@ViewBag.InputName"
+                       placeholder="Nhập tên sản phẩm..." />
+
+                @Html.ValidationMessage(
+                         "ProductName", "",
+                         new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>Danh mục</label>
+                <input type="text"
+                       name="Category"
+                       class="form-control"
+                       value="@ViewBag.InputCategory"
+                       placeholder="Nhập danh mục..." />
+
+                @Html.ValidationMessage(
+                         "Category", "",
+                         new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>Đơn giá (VNĐ)</label>
+                <input type="number"
+                       name="Price"
+                       class="form-control"
+                       step="any"
+                       value="@ViewBag.InputPrice"
+                       placeholder="Nhập đơn giá..." />
+
+                @Html.ValidationMessage(
+                         "Price", "",
+                         new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>Số lượng tồn kho</label>
+                <input type="number"
+                       name="Quantity"
+                       class="form-control"
+                       step="1"
+                       value="@ViewBag.InputQuantity"
+                       placeholder="Nhập số lượng..." />
+
+                @Html.ValidationMessage(
+                         "Quantity", "",
+                         new { @class = "text-danger" })
+            </div>
+
+            <div class="alert alert-info">
+                Mã sản phẩm (ProductID) sẽ được
+                hệ thống tự động tạo khi thêm mới.
+            </div>
+
+            <button type="submit"
+                    class="btn btn-success">
+                Thêm sản phẩm
+            </button>
+
+            <a href="@Url.Action("Index", "Products")"
+               class="btn btn-default">
+                Quay lại danh sách
+            </a>
+        }
+
+    </div>
+</div>

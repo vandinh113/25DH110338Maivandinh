@@ -1,0 +1,170 @@
+﻿
+@model IEnumerable<Warehouse_25DH110338.Models.Product>
+
+@{
+    ViewBag.Title = "Thống kê kết quả kiểm kê";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>THỐNG KÊ KẾT QUẢ KIỂM KÊ</h2>
+
+<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <strong>Thống kê tồn kho từ SQL Server</strong>
+    </div>
+
+    <div class="panel-body">
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="alert alert-info text-center">
+                    <h4>TỔNG SỐ SẢN PHẨM</h4>
+                    <h2>@ViewBag.TotalProducts</h2>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="alert alert-danger text-center">
+                    <h4>SẢN PHẨM HẾT HÀNG</h4>
+                    <h2>@ViewBag.OutOfStock</h2>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="alert alert-warning text-center">
+                    <h4>SẢN PHẨM SẮP HẾT</h4>
+                    <h2>@ViewBag.LowStock</h2>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="alert alert-success text-center">
+            <h3>TỔNG GIÁ TRỊ TỒN KHO</h3>
+
+            <h2>
+                @String.Format("{0:N0} VNĐ",
+                              ViewBag.TotalInventoryValue)
+            </h2>
+        </div>
+
+        <h3>THÔNG TIN TỒN KHO</h3>
+
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>Tổng số sản phẩm</th>
+                <td>@ViewBag.TotalProducts</td>
+            </tr>
+
+            <tr>
+                <th>Số sản phẩm còn hàng</th>
+                <td>@ViewBag.InStock</td>
+            </tr>
+
+            <tr>
+                <th>Số sản phẩm hết hàng</th>
+                <td>@ViewBag.OutOfStock</td>
+            </tr>
+
+            <tr>
+                <th>Số sản phẩm sắp hết</th>
+                <td>@ViewBag.LowStock</td>
+            </tr>
+
+            <tr>
+                <th>Tổng số lượng tồn kho</th>
+                <td>@ViewBag.TotalQuantity</td>
+            </tr>
+
+            <tr>
+                <th>Tổng giá trị tồn kho</th>
+                <td>
+                    @String.Format("{0:N0} VNĐ",
+                                  ViewBag.TotalInventoryValue)
+                </td>
+            </tr>
+        </table>
+
+        <h3>DANH SÁCH SẢN PHẨM TRONG KHO</h3>
+
+        <table class="table table-bordered table-striped">
+
+            <thead>
+                <tr>
+                    <th>Mã SP</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Danh mục</th>
+                    <th>Đơn giá</th>
+                    <th>Số lượng</th>
+                    <th>Giá trị tồn kho</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.ProductID</td>
+
+                        <td>@item.ProductName</td>
+
+                        <td>@item.Category</td>
+
+                        <td>
+                            @String.Format("{0:N0} VNĐ",
+                                          item.Price)
+                        </td>
+
+                        <td>@item.Quantity</td>
+
+                        <td>
+                            @String.Format("{0:N0} VNĐ",
+                                          item.Price * item.Quantity)
+                        </td>
+
+                        <td>
+                            @if (item.Quantity == 0)
+                            {
+                                <span class="label label-danger">
+                                    Hết hàng
+                                </span>
+                            }
+                            else if (item.Quantity <= 4)
+                            {
+                                <span class="label label-warning">
+                                    Sắp hết
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="label label-success">
+                                    Đủ hàng
+                                </span>
+                            }
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+        <a href="@Url.Action("Index", "Products")"
+           class="btn btn-primary">
+            Quay lại danh sách sản phẩm
+        </a>
+
+        <a href="@Url.Action("Statistics", "Products")"
+           class="btn btn-success">
+            Làm mới thống kê
+        </a>
+
+    </div>
+
+</div>

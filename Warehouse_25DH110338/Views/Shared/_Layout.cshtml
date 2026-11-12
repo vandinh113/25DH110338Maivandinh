@@ -1,0 +1,248 @@
+﻿
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewBag.Title - Quản lý kho hàng</title>
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+        }
+
+        .main-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        .header {
+            background-color: #19375d;
+            color: white;
+            text-align: center;
+            padding: 22px 15px;
+        }
+
+            .header h1 {
+                font-size: 30px;
+                font-weight: 400;
+                margin: 0 0 8px;
+            }
+
+            .header p {
+                font-size: 13px;
+                font-weight: bold;
+                margin: 0;
+            }
+
+        /* MAIN LAYOUT */
+        .main-content {
+            display: flex;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 250px;
+            flex-shrink: 0;
+            background-color: #243d59;
+            color: white;
+            padding: 25px 10px;
+        }
+
+            .sidebar h3 {
+                color: white;
+                text-align: center;
+                font-size: 18px;
+                font-weight: bold;
+                margin: 5px 0 25px;
+            }
+
+            .sidebar a {
+                display: block;
+                padding: 14px 12px;
+                color: white;
+                text-decoration: none;
+                font-size: 14px;
+                border-bottom: 1px solid #40566f;
+            }
+
+                .sidebar a:hover {
+                    background-color: #3e6889;
+                    color: white;
+                    text-decoration: none;
+                }
+
+                .sidebar a:focus {
+                    color: white;
+                    text-decoration: none;
+                }
+
+        /* CONTENT */
+        .content {
+            flex: 1;
+            min-width: 0;
+            background-color: #f4f6f9;
+            padding: 25px 22px;
+        }
+
+            .content h2 {
+                font-size: 27px;
+                margin-top: 15px;
+                margin-bottom: 10px;
+                color: #222;
+            }
+
+            .content table {
+                background-color: transparent;
+            }
+
+            .content .table {
+                width: 100%;
+            }
+
+                .content .table th,
+                .content .table td {
+                    vertical-align: middle;
+                }
+
+            .content .panel-heading {
+                padding: 12px 15px;
+            }
+
+            .content .panel-body {
+                padding: 15px;
+            }
+
+        /* FOOTER */
+        .footer {
+            background-color: #19375d;
+            color: white;
+            text-align: center;
+            padding: 18px 10px;
+            font-size: 13px;
+        }
+
+            .footer p {
+                margin: 5px 0;
+            }
+
+        /* RESPONSIVE */
+        @@media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .content {
+                padding: 15px;
+                overflow-x: auto;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+
+    @RenderSection("styles", required: false)
+</head>
+
+<body>
+    <div class="main-container">
+
+        <!-- HEADER -->
+        <header class="header">
+            <h1>WEBSITE QUẢN LÝ KHO HÀNG</h1>
+
+            <p>
+                Họ tên: MAI VAN DINH |
+                MSSV: 25DH110338
+            </p>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+
+            <!-- MENU BÊN TRÁI -->
+            <nav class="sidebar">
+
+                <h3>MENU CHỨC NĂNG</h3>
+
+                <!-- CÂU 2 -->
+                <a href="@Url.Action("Index", "Products")">
+                    Câu 2 - Danh sách sản phẩm
+                </a>
+
+                <!-- CÂU 3 -->
+                <a href="@Url.Action("Search", "Products")">
+                    Câu 3 - Tra cứu hàng hóa
+                </a>
+
+                <!-- CÂU 4 -->
+                <a href="@Url.Action("Index", "Products")">
+                    Câu 4 - Kiểm kê sản phẩm
+                </a>
+
+                <!-- CÂU 5 -->
+                <a href="@Url.Action("InventoryTwo", "Products")">
+                    Câu 5 - Kiểm kê hai sản phẩm
+                </a>
+
+                <!-- CÂU 6 -->
+                <a href="@Url.Action("Create", "Products")">
+                    Câu 6 - Thêm sản phẩm
+                </a>
+
+                <!-- CÂU 7 -->
+                <a href="@Url.Action("Statistics", "Products")">
+                    Câu 7 - Thống kê tồn kho
+                </a>
+
+            </nav>
+
+            <!-- NỘI DUNG TRANG -->
+            <main class="content">
+                @RenderBody()
+            </main>
+
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+
+            <p>
+                Ngày tháng năm sinh: 08/06/2007
+            </p>
+
+            <p>
+                © 2026 - Website quản lý kho hàng
+            </p>
+
+        </footer>
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

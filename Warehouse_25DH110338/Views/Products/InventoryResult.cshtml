@@ -1,0 +1,80 @@
+﻿
+@model Warehouse_25DH110338.Models.Product
+
+@{
+    ViewBag.Title = "Kết quả kiểm kê";
+}
+
+<h2>KẾT QUẢ KIỂM KÊ SẢN PHẨM</h2>
+
+<div class="alert alert-success">
+    <strong>Cập nhật kiểm kê thành công!</strong>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Thông tin kiểm kê
+    </div>
+
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <tr>
+                <th>Mã sản phẩm</th>
+                <td>@Model.ProductID</td>
+            </tr>
+
+            <tr>
+                <th>Tên sản phẩm</th>
+                <td>@Model.ProductName</td>
+            </tr>
+
+            <tr>
+                <th>Số lượng trước kiểm kê</th>
+                <td>@ViewBag.OldQuantity</td>
+            </tr>
+
+            <tr>
+                <th>Số lượng sau kiểm kê</th>
+                <td>
+                    <strong>@ViewBag.NewQuantity</strong>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Chênh lệch</th>
+                <td>
+                    <strong>@ViewBag.Message</strong>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Trạng thái tồn kho mới</th>
+                <td>
+                    @if (Model.Quantity == 0)
+                    {
+                        <span class="label label-danger">
+                            Hết hàng
+                        </span>
+                    }
+                    else if (Model.Quantity <= 4)
+                    {
+                        <span class="label label-warning">
+                            Sắp hết
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="label label-success">
+                            Đủ hàng
+                        </span>
+                    }
+                </td>
+            </tr>
+        </table>
+
+        <a href="@Url.Action("Index", "Products")"
+           class="btn btn-primary">
+            Quay lại danh sách sản phẩm
+        </a>
+    </div>
+</div>

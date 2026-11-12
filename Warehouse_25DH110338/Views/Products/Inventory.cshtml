@@ -1,0 +1,68 @@
+﻿
+@model Warehouse_25DH110338.Models.Product
+
+@{
+    ViewBag.Title = "Kiểm kê sản phẩm";
+}
+
+<h2>KIỂM KÊ SẢN PHẨM</h2>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Cập nhật số lượng thực tế
+    </div>
+
+    <div class="panel-body">
+
+        <table class="table table-bordered">
+            <tr>
+                <th>Mã sản phẩm</th>
+                <td>@Model.ProductID</td>
+            </tr>
+
+            <tr>
+                <th>Tên sản phẩm</th>
+                <td>@Model.ProductName</td>
+            </tr>
+
+            <tr>
+                <th>Số lượng tồn kho hiện tại</th>
+                <td>
+                    <strong>@Model.Quantity</strong>
+                </td>
+            </tr>
+        </table>
+
+        @using (Html.BeginForm("Inventory", "Products",
+            new { id = Model.ProductID },
+            FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label>Số lượng kiểm kê thực tế</label>
+
+                <input type="text"
+                       name="actualQuantity"
+                       value="@ViewBag.ActualQuantity"
+                       class="form-control"
+                       placeholder="Nhập số lượng thực tế..." />
+
+                @Html.ValidationMessage(
+                         "actualQuantity",
+                         "",
+                         new { @class = "text-danger" })
+            </div>
+
+            <button type="submit"
+                    class="btn btn-success">
+                Cập nhật kiểm kê
+            </button>
+
+            <a href="@Url.Action("Index", "Products")"
+               class="btn btn-default">
+                Quay lại danh sách
+            </a>
+        }
+    </div>
+</div>

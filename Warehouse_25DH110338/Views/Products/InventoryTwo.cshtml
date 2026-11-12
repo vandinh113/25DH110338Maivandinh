@@ -1,0 +1,145 @@
+﻿
+@using System.Linq
+@using System.Collections.Generic
+@using Warehouse_25DH110338.Models
+@{
+    ViewBag.Title = "Kiểm kê đồng thời hai sản phẩm";
+
+    var products = ViewBag.Products as List<Product>
+                   ?? new List<Product>();
+}
+
+<h2>KIỂM KÊ ĐỒNG THỜI HAI SẢN PHẨM</h2>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Kiểm kê hai sản phẩm trong một giao dịch
+    </div>
+
+    <div class="panel-body">
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.Error
+            </div>
+        }
+
+        @if (ViewBag.Success != null)
+        {
+            <div class="alert alert-success">
+                @ViewBag.Success
+            </div>
+
+            <h3>KẾT QUẢ KIỂM KÊ</h3>
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Số lượng cũ</th>
+                        <th>Số lượng mới</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@ViewBag.ProductName1</td>
+                        <td>@ViewBag.OldQuantity1</td>
+                        <td>@ViewBag.NewQuantity1</td>
+                        <td>Đã cập nhật</td>
+                    </tr>
+                    <tr>
+                        <td>@ViewBag.ProductName2</td>
+                        <td>@ViewBag.OldQuantity2</td>
+                        <td>@ViewBag.NewQuantity2</td>
+                        <td>Đã cập nhật</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+        @using (Html.BeginForm(
+            "InventoryTwo",
+            "Products",
+            FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <h3>SẢN PHẨM THỨ NHẤT</h3>
+
+            <div class="form-group">
+                <label>Chọn sản phẩm thứ nhất</label>
+
+                <select name="productId1"
+                        class="form-control"
+                        required>
+                    <option value="">-- Chọn sản phẩm --</option>
+
+                    @foreach (var p in products)
+                    {
+                        <option value="@p.ProductID">
+                            @p.ProductID - @p.ProductName
+                            (Tồn kho: @p.Quantity)
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Số lượng kiểm kê thực tế</label>
+
+                <input type="number"
+                       name="quantity1"
+                       class="form-control"
+                       step="1"
+                       required />
+            </div>
+
+            <hr />
+
+            <h3>SẢN PHẨM THỨ HAI</h3>
+
+            <div class="form-group">
+                <label>Chọn sản phẩm thứ hai</label>
+
+                <select name="productId2"
+                        class="form-control"
+                        required>
+                    <option value="">-- Chọn sản phẩm --</option>
+
+                    @foreach (var p in products)
+                    {
+                        <option value="@p.ProductID">
+                            @p.ProductID - @p.ProductName
+                            (Tồn kho: @p.Quantity)
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Số lượng kiểm kê thực tế</label>
+
+                <input type="number"
+                       name="quantity2"
+                       class="form-control"
+                       step="1"
+                       required />
+            </div>
+
+            <hr />
+
+            <button type="submit"
+                    class="btn btn-success">
+                Cập nhật kiểm kê hai sản phẩm
+            </button>
+
+            <a href="@Url.Action("Index", "Products")"
+               class="btn btn-default">
+                Quay lại danh sách
+            </a>
+        }
+
+    </div>
+</div>

@@ -1,0 +1,138 @@
+﻿
+@model IEnumerable<Warehouse_25DH110338.Models.Product>
+
+@{
+    ViewBag.Title = "Tra cứu hàng hóa";
+}
+
+<h2>TRA CỨU HÀNG HÓA</h2>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Tìm kiếm và lọc sản phẩm
+    </div>
+
+    <div class="panel-body">
+        @using (Html.BeginForm("Search", "Products",
+            FormMethod.Get))
+        {
+            <div class="row">
+
+                <div class="col-md-4">
+                    <label>Tên sản phẩm</label>
+                    <input type="text"
+                           name="keyword"
+                           value="@ViewBag.Keyword"
+                           class="form-control"
+                           placeholder="Nhập tên sản phẩm..." />
+                </div>
+
+                <div class="col-md-3">
+                    <label>Trạng thái tồn kho</label>
+                    <select name="status"
+                            class="form-control">
+                        <option value="">Tất cả</option>
+                        <option value="het"
+                                @(ViewBag.Status == "het" ? "selected" : "")>
+                            Hết hàng (0)
+                        </option>
+                        <option value="saphet"
+                                @(ViewBag.Status == "saphet" ? "selected" : "")>
+                            Sắp hết (1-4)
+                        </option>
+                        <option value="du"
+                                @(ViewBag.Status == "du" ? "selected" : "")>
+                            Đủ hàng (>=5)
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Sắp xếp theo giá</label>
+                    <select name="sort"
+                            class="form-control">
+                        <option value="">Mặc định</option>
+                        <option value="price_asc"
+                                @(ViewBag.Sort == "price_asc" ? "selected" : "")>
+                            Giá tăng dần
+                        </option>
+                        <option value="price_desc"
+                                @(ViewBag.Sort == "price_desc" ? "selected" : "")>
+                            Giá giảm dần
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label>&nbsp;</label>
+                    <button type="submit"
+                            class="btn btn-primary btn-block">
+                        Tìm kiếm
+                    </button>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+<h3>KẾT QUẢ TRA CỨU</h3>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">
+        Không tìm thấy sản phẩm phù hợp.
+    </div>
+}
+else
+{
+    <p>
+        Tìm thấy <strong>@Model.Count()</strong> sản phẩm.
+    </p>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Mã SP</th>
+                <th>Tên sản phẩm</th>
+                <th>Danh mục</th>
+                <th>Đơn giá</th>
+                <th>Số lượng</th>
+                <th>Trạng thái</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductID</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.Category</td>
+                    <td>@item.Price.ToString("N0") VNĐ</td>
+                    <td>@item.Quantity</td>
+                    <td>
+                        @if (item.Quantity == 0)
+                        {
+                            <span class="label label-danger">
+                                Hết hàng
+                            </span>
+                        }
+                        else if (item.Quantity <= 4)
+                        {
+                            <span class="label label-warning">
+                                Sắp hết
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="label label-success">
+                                Đủ hàng
+                            </span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
